@@ -1,5 +1,8 @@
 #!./venv/bin/python
-from app import main
+from app import main, shutdown
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        shutdown()

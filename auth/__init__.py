@@ -42,4 +42,5 @@ def login():
         try:
             return login_process()
         except Error as error:
+            Console.error(error)
             continue

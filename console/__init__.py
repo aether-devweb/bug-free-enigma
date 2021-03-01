@@ -31,5 +31,5 @@ class Console:
         system('cls' if distro == 'nt' else 'clear')
 
     @staticmethod
-    def read_line(*prompt):
-        return input(*prompt)
+    def read_line(prompt):
+        return input(f'{prompt} $_ ')

@@ -1,6 +1,7 @@
 from console import Console
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import CursorBase
+from math import floor
 
 join, log, error = [Console.join, Console.log, Console.error]
 
@@ -48,9 +49,9 @@ class Knox:
         dept_time, arr_time = self.validate_time(dept_time, arr_time)
         ticket = Ticket((None, self.user, dept, arr, dept_time, arr_time))
         query, *params = ticket.serialize()
-        # ticket.id =
-        self.commit(query, params)
+        ticket.id = self.commit(query, params)
         self.tickets.append(ticket)
+        return ticket
     
     @classmethod
     def commit(self, query, params):
@@ -59,7 +60,30 @@ class Knox:
         self.cursor.execute('SELECT * from ticket')
         result = self.cursor.fetchall()
         log(result)
-        # return result
+        return result[0]
+
+    # ! Deprecated
+    @classmethod
+    def print_ticket(self, ticket: Ticket):
+        id = f'{ticket.id}'.center(13)
+        dept = ticket.dept.center(13)
+        arr = ticket.arr.center(15)
+        dept_time = f'{ticket.dept_time}'.center(18)
+        arr_time = f'{ticket.arr_time}'.center(16)
+        Console.info(f' ||{id}||{dept}||{arr}||{dept_time}||{arr_time}||')
+
+    
+    @classmethod
+    def get_tickets(self):
+        if len(self.tickets) <= -1:
+            Console.info('No tickets are available\n')
+            return
+        Console.success('||  Ticket ID  ||  Departure  ||  Destination  ||  Departure Time  ||  Arrival Time  ||')
+        for ticket in self.tickets:
+            Console.success('==============================================')
+            Console.success(f'{ticket}')
+            Console.success('==============================================')
+
 
     # Don't Bother Reading this.
     # The Most Boring/Convoluted method in the Codebase

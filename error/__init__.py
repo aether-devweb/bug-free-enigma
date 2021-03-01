@@ -9,7 +9,7 @@ class Error(Exception):
         self.status = status
 
     def __str__(self) -> str:
-        return f'[EXCEPTION {self.status} on {get_curtime()}] {self.message}'
+        return f'[Error {self.status} on {get_curtime()}] {self.message}'
     
     def __repr__(self) -> str:
         return super().__repr__()
